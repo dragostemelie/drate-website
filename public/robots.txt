@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /search
+Disallow: /saved
+Disallow: /settings
+
+Sitemap: https://drate.net/sitemap.xml

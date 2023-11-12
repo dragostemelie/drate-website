@@ -1,0 +1,62 @@
+[
+  {
+    "id": 0,
+    "created": "2015-02-23T11:06:55",
+    "uuid": "bba7f214-f4db-4ac2-8fb3-d03da0ce745d",
+    "displayName": "Dragos Temelie",
+    "avatar": "/images/profile.jpg",
+    "email": "janetleonard@repetwire.com",
+    "title": "Frontend Developer at Endava",
+    "about": "I am a frontend developer experienced working with React and Typescript.\n\nSo far I worked with product owners from multiple areas such as education, supply chain management, event planning, and product startups.\n\nIn latest projects I also acted as a designer and used Figma to create app screens and prototypes.",
+    "isAuthor": true,
+    "posts": 3,
+    "topics": 10,
+    "comments": 68,
+    "lastSeen": "2022-08-05T07:35:18"
+  },
+  {
+    "id": 1,
+    "created": "2015-02-23T11:06:55",
+    "uuid": "22119388-0ecc-4115-b074-58c7b8025156",
+    "displayName": "John Smith",
+    "avatar": "https://source.unsplash.com/random/128x128/?avatar",
+    "email": "janetleonard@repetwire.com",
+    "title": "Frontend Developer at Endava",
+    "about": "I am a frontend developer experienced working with React and Typescript.",
+    "isAuthor": true,
+    "posts": 3,
+    "topics": 10,
+    "comments": 68,
+    "lastSeen": "2022-08-05T07:35:18"
+  },
+  {
+    "id": 2,
+    "created": "2015-02-23T11:06:55",
+    "uuid": "22119388-0ecc-4115-b074-58c7b8025152",
+    "displayName": "Leonard Hoffstader",
+    "avatar": "https://source.unsplash.com/random/120x120/?avatar",
+    "email": "janetleonard@repetwire.com",
+    "title": "Frontend Developer at Endava",
+    "about": "I am a frontend developer experienced working with React and Typescript.",
+    "isAuthor": true,
+    "posts": 3,
+    "topics": 10,
+    "comments": 68,
+    "lastSeen": "2022-08-05T07:35:18"
+  },
+  {
+    "id": 3,
+    "created": "2015-02-23T11:06:55",
+    "uuid": "22119388-0ecc-4115-b074-58c7b8025157",
+    "displayName": "Amanda Fox",
+    "avatar": "https://source.unsplash.com/random/120x120/?avatar",
+    "email": "janetleonard@repetwire.com",
+    "title": "Frontend Developer at Endava",
+    "about": "I am a frontend developer experienced working with React and Typescript.",
+    "isAuthor": true,
+    "posts": 3,
+    "topics": 10,
+    "comments": 68,
+    "lastSeen": "2022-08-05T07:35:18"
+  }
+]

@@ -1,0 +1,24 @@
+{
+  "name": "dragos/techblogapi",
+  "authors": [
+    {
+      "name": "Dragos Temelie",
+      "email": "dragostemelie@gmail.com"
+    }
+  ],
+  "require": {
+    "firebase/php-jwt": "^6.3",
+    "phpmailer/phpmailer": "^6.7",
+    "maxmind-db/reader": "~1.0",
+    "vlucas/phpdotenv": "^5.5"
+  },
+  "scripts": {
+    "dev": [
+      "echo 'Starting local server...'",
+      "php -S localhost:8000 -t ."
+    ]
+  },
+  "config": {
+    "process-timeout": 0
+  }
+}

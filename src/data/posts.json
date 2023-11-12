@@ -1,0 +1,119 @@
+[
+  {
+    "id": 0,
+    "created": "2023-03-25T10:58:33",
+    "author": {
+      "uuid": "bba7f214-f4db-4ac2-8fb3-d03da0ce745d",
+      "displayName": "Dragos Temelie",
+      "avatar": "/images/profile.jpg"
+    },
+    "title": "Page lifecycle API with React custom hook",
+    "excerpt": "The web application my team is building needs the users to be logged in, to be able to edit the content. The login is a token-based system with a short expiration time and the app is built using React JS.",
+    "content": "![Notes screenshot](https://drate.go.ro/images/articles/passive-or-active.jpg)\n\nThe web application my team is building needs the users to be logged in, to be able to edit the content. The login is a token-based system with a short expiration time and the app is built using React JS.\n\nAs you can imagine, users sometimes leave the page open on the browser for several minutes, maybe hours. When they come back to the page, it can happen so that the token expired, but the user doesn't know it yet. He will find out only after making a request.\n\nWe needed a way to check if the token is valid every time the user returned to the page. Polling was one way to accomplish this, that is simply hitting an API endpoint to check validity at a set interval of time. But that seems like a lot of unnecessary requests for a simple token check.\n\n## Observing page states\n\nIt is possible to run JavaScript code that determines the current page state from the existing web platform APIs:\n\n\n```js\nconst getState = () => {\n  if (document.visibilityState === 'hidden') {\n    return 'hidden';\n  }\n  if (document.hasFocus()) {\n    return 'active';\n  }\n  return 'passive';\n};\n```\n\n## The hook\n\nOne elegant way to check the page state is using a React hook. Inside the hook, we can have an effect which will run on every page state change:\n\n```js\nuseEffect(() => {\n  // Set the next state\n  const visibilityChange = () => {\n    setPageState(getState());\n  };\n  // These  events can all use the same listener to observe state\n  // changes (they call the `getState()` function to determine the next state).\n  ['focus', 'blur', 'visibilitychange', 'resume'].forEach(type => {\n    window.addEventListener(type, visibilityChange, {\n      capture: true,\n    });\n  });\n  //Every next effect we need to remove the previous listeners\n  return () => {\n    ['focus', 'blur', 'visibilitychange', 'resume'].forEach(type => {\n      window.removeEventListener(type, visibilityChange);\n    });\n  };\n});\n```\n\nThe above code does two things:\n- Sets the pageState using the `getState()` function.\n- Adds capturing event listeners for all necessary page events\n\n## The usePageVisibility hook\n\nAnd here we have the complete `usePageVisibility` code:\n\n```js\nimport { useState, useEffect } from 'react';\n\nconst getState = () => {\n  if (document.visibilityState === 'hidden') {\n    return 'hidden';\n  }\n  if (document.hasFocus()) {\n    return 'active';\n  }\n  return 'passive';\n};\n\nexport const usePageVisibility = () => {\n  const [pageState, setPageState] = useState(getState());\n\n  useEffect(() => {\n    const visibilityChange = () => {\n      setPageState(getState());\n    };\n    //add listeners\n    ['focus', 'blur', 'visibilitychange', 'resume'].forEach(type => {\n      window.addEventListener(type, visibilityChange, {\n        capture: true,\n      });\n    });\n    //cleanup\n    return () => {\n      ['focus', 'blur', 'visibilitychange', 'resume'].forEach(type => {\n        window.removeEventListener(type, visibilityChange);\n      });\n    };\n  });\n  return pageState;\n};\n```\n\nNow every time you leave and come back to the page, the `setTokenExpired()` will be triggered and update the component state.\n\n## Conclusion\n\nSometimes you need a simple way to check if a user is still logged in. With React Hooks, and especially the ability to put together custom Hooks, creating a reusable Hook to serve just such a purpose seemed inevitable.\n\nCheck [this article](https://developers.google.com/web/updates/2018/07/page-lifecycle-api) for a more in-depth look on how page lifecycle works.",
+    "topic": "Page lifecycle API",
+    "category": "React hooks",
+    "likes": [],
+    "comments": [
+      {
+        "id": "641d4b55d7729e6010d99bd7",
+        "created": "1 day ago",
+        "post": "641d4b552d4c2dd9d27352ab",
+        "user": "bba7f214-f4db-4ac2-8fb3-d03da0ce745d",
+        "comment": "Fugiat ipsum do minim culpa do commodo excepteur. Lorem voluptate occaecat exercitation cillum proident aliqua voluptate officia aliqua aliquip officia laborum ex.",
+        "repliedTo": null,
+        "replies": [],
+        "likes": ["bba7f214-f4db-4ac2-8fb3-d03da0ce745d"]
+      },
+      {
+        "id": "641d4b55bb7fa951a9e666fd",
+        "created": "12 hours ago",
+        "post": "641d4b5506142b939688e11e",
+        "user": "22119388-0ecc-4115-b074-58c7b8025156",
+        "comment": "Velit commodo quis cillum laboris incididunt culpa ex nostrud cillum nostrud commodo. Dolore reprehenderit cupidatat nostrud cupidatat.",
+        "repliedTo": null,
+        "replies": [],
+        "likes": []
+      },
+      {
+        "id": "641d4b55bx7fa951d9e666fd",
+        "created": "1 hour ago",
+        "post": "641d4b5506142b939688e11e",
+        "user": "22119388-0ecc-4115-b074-58c7b8025152",
+        "comment": "Velit commodo quis cillum laboris incididunt culpa ex nostrud cillum nostrud commodo. Dolore reprehenderit cupidatat nostrud cupidatat.",
+        "repliedTo": null,
+        "replies": [],
+        "likes": []
+      },
+      {
+        "id": "641d4b55bb7fa951d9e666fd",
+        "created": "53 min ago",
+        "post": "641d4b5506142b939688e11e",
+        "user": "22119388-0ecc-4115-b074-58c7b8025157",
+        "comment": "Velit commodo quis cillum laboris incididunt culpa ex nostrud cillum nostrud commodo. Dolore reprehenderit cupidatat nostrud cupidatat.",
+        "repliedTo": null,
+        "replies": [],
+        "likes": []
+      },
+      {
+        "id": "641d4b554c92fc786b1b76c3",
+        "created": "2016-11-13T11:27:33 -02:00",
+        "post": "641d4b55754cdadcb494e4df",
+        "user": "7bc9c09c-60ab-416a-af7b-390abfdca54d",
+        "comment": "Here is al link: http://localhost:3000/post/Page-lifecycle-API-with-React-custom-hook",
+        "repliedTo": null,
+        "replies": [
+          {
+            "id": "641d4b55ff933794786758f9",
+            "created": "2019-04-18T05:42:33 -03:00",
+            "post": "641d4b556a42dff3fcb00f7e",
+            "user": "641d4b55a0d81bd43bea157e",
+            "comment": "Esse fugiat non tempor consequat eu ex laboris id. Pariatur est officia veniam Lorem fugiat magna.",
+            "repliedTo": null
+          }
+        ],
+        "likes": []
+      }
+    ]
+  },
+  {
+    "id": 1,
+    "created": "2023-03-25T10:58:33",
+    "author": {
+      "uuid": "bba7f214-f4db-4ac2-8fb3-d03da0ce745d",
+      "displayName": "Dragos Temelie",
+      "avatar": "/images/profile.jpg"
+    },
+    "title": "Jango Player, a React Native App",
+    "excerpt": "While learning how mobile development works, I started building a music player using react native and Expo.",
+    "content": "![Jango Player Screenshot](https://drate.go.ro/images/articles/jango-player.png)\n\nWhile learning how mobile development works, I started building my own music player using react native and Expo. I was using [Jango](https://www.jango.com/) for a while as my music app and I always found it annoying that they don't allow seeking inside a song.\n\nWith that in mind, I decided to use their API and make myself a mobile player with seek capability\n\n## THE DESIGN:\n\nI used Figma to design the screens after browsing a bit on Dribbble for inspiration. You can check out the source [here](https://www.figma.com/file/x4gjvJakul5s0XugioTMtn/Jango-player).\n\n![Playing Screen](https://drate.go.ro/images/articles/playlist-playing.png)\n![Playlists Screen](https://drate.go.ro/images/articles/playlist-screens.png)\n\n## THE CODE\n\nThe code is uploaded on [Github](https://github.com/drate/jango-player). To install and use the app in an android/ios simulator, download the **preview-build** for [android](https://github.com/drate/jango-player/raw/main/builds/android/jango-player-preview-build.apk) or [ios](https://github.com/drate/jango-player/raw/main/builds/ios/jango-player-preview-build.tar) and drag it over the simulator. The android app can also be installed on physical devices if you allow unknown sources.\n\ninside the builds folder, you can also find the custom development client app(**jango-player-development-env**). If you want to start the project locally, you need that installed on the simulator. It won't work with the Expo Go app.",
+    "topic": "Building a music player using react native",
+    "category": "React Native",
+    "likes": [
+      "92d4ac4b-6eed-460d-a7f8-ead19379420c",
+      "ba35577f-b2c2-4c58-baa1-c30e607ea7b5",
+      "7e9e20bc-ef6a-412c-9c2f-4d5a9aa7ed46"
+    ],
+    "comments": []
+  },
+  {
+    "id": 2,
+    "created": "2023-03-25T10:58:33",
+    "author": {
+      "uuid": "bba7f214-f4db-4ac2-8fb3-d03da0ce745d",
+      "displayName": "Dragos Temelie",
+      "avatar": "/images/profile.jpg"
+    },
+    "title": "Currency convertor in Excel",
+    "excerpt": "One of the most time-wasting problems at my former job was to get the currency match for a list of dates. I came up with a solution to this problem by using VBA, the programming language of the office suite.",
+    "content": "One of the most time-wasting problems at my former job was to get the currency match for a list of dates. I came up with a solution to this problem by using VBA, the programming language of the office suite.\n\nSince I am from Romania, the official RON currency rates are published by the National Bank of Romania([BNR](https://www.bnr.ro)) and all I had to do was to access the records.\n\nThe currency lists are grouped by years in XML files:\n- [https://www.bnr.ro/files/xml/years/nbrfxrates2020.xml](https://www.bnr.ro/files/xml/years/nbrfxrates2020.xml)\n- [https://www.bnr.ro/files/xml/years/nbrfxrates2021.xml](https://www.bnr.ro/files/xml/years/nbrfxrates2021.xml)\n- etc..\n\nI added a new module in the Visual Basic editor window(**Alt + F11**):\n\n![Module screenshot](https://drate.go.ro/images/articles/corrency-convertor-module.JPG)\n\nA reference to the Microsoft XML library is needed since we're gonna be dealing with XML file format:\n![References screenshot](https://drate.go.ro/images/articles/references-microsoft-xml-v6.JPG)\n\nAnd here is the function that reads the XML file, searches for the given currency symbol, and returns the rate. Putting that in the `currencyModule` and we're good to go:\n\n```vb\nPublic Function CURS(Data As Date, Symbol As String) As String\n    '### LOAD XML\n    Dim XMLDoc As MSXML2.DOMDocument60\n    Set XMLDoc = New MSXML2.DOMDocument60\n    XMLDoc.async = False\n    XMLDoc.validateOnParse = False\n    XMLDoc.SetProperty \"SelectionNamespaces\", \"xmlns:ns='http://www.bnr.ro/xsd'\"\n    XMLDoc.Load (\"https://www.bnr.ro/files/xml/years/nbrfxrates\" & Year(Data) & \".xml\")\n\n    '### CHECK DATE\n    Dim currencyDate As String, currencyValue As String\n    If IsDate(Data) Then\n        currencyDate = Format(Data, \"yyyy-mm-dd\")\n    Else\n        CURS = \"#VALUE\" 'currency date is invalid\n        Exit Function\n    End If\n\n    '### GET CURRENCY BY DATE\n    If XMLDoc.SelectNodes(\"/ns:DataSet/ns:Body/ns:Cube[@date='\" & currencyDate & \"']/ns:Rate[@currency='\" & UCase(Symbol) & \"']\").Length > 0 Then\n        currencyValue = XMLDoc.SelectNodes(\"/ns:DataSet/ns:Body/ns:Cube[@date='\" & currencyDate & \"']/ns:Rate[@currency='\" & UCase(Symbol) & \"']\").Item(0).Text\n    Else\n        CURS = \"#N/A\" 'currency for that date not found\n        Exit Function\n    End If\n    CURS = currencyValue\nEnd Function\n```\nMaking the function **Public** makes it possible to be used inside the workbook cells, like a normal formula: `=CURS(\\\"2021-10-01\\\",\\\"EUR\\\")`.\n\nThe [XMLDoc.SelectNodes](https://docs.microsoft.com/en-us/office/vba/api/word.xmlnode.selectnodes) function gets the XML node value that matches the XPath string, in this case: `DataSet->Body->Cube[@date]->Rate[@currency]`\n\nYou can download the Excel file [here](https://drate.go.ro/images/articles/Currency.xlsm). Keep in mind you need to have macros enabled for it to work.",
+    "topic": "Visual Basic for Applications",
+    "category": "Excel",
+    "likes": [
+      "92d4ac4b-6eed-460d-a7f8-ead19379420c",
+      "ba35577f-b2c2-4c58-baa1-c30e607ea7b5",
+      "7e9e20bc-ef6a-412c-9c2f-4d5a9aa7ed46",
+      "809e20bc-ef6a-412c-9c2f-4d5a9aa7ed46"
+    ],
+    "comments": []
+  }
+]

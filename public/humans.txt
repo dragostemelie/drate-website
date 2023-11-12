@@ -1,0 +1,15 @@
+/* TEAM */
+- Developer: Dragos Temelie
+
+/* THANKS */
+- We'd like to thank our users for their support and feedback.
+
+/* TECHNOLOGIES */
+- React JS
+- Redux
+- PHP
+- MySQL
+
+/* SITE */
+- Site: drate.net
+- Contact: dragostemelie@gmail.com
