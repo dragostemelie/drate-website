@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 import fs from 'fs';
 import ftp from "basic-ftp"
+import { simpleGit } from 'simple-git';
 import 'dotenv/config'
 
 
@@ -17,35 +18,37 @@ const linkTag = htmlText.match(linkRegex)?.[0];
 if (scriptTag !== undefined && linkTag !== undefined) {
     const phpText = fs.readFileSync(PHP_FILE, 'utf8');
     const newPhpText = phpText.replace(scriptRegex, scriptTag).replace(linkRegex, linkTag);
-    console.log("newPhpText", newPhpText);
+    // console.log("newPhpText", newPhpText);
 }
 
-console.log("process", process.env.DB_HOST);
-
-// Read last git commit and get the commit hash and file list
+// Read uncommited files
+const git = simpleGit();
+const data = await git.status('s')
 
 // Upload last commited files to production server
-if (false) {
-    const FILES = [
-        "test.txt", //
-    ]
-    const client = new ftp.Client()
-    client.ftp.verbose = true;
-    try {
-        await client.access({
-            host: process.env.FTP_HOST,
-            user: process.env.FTP_USER,
-            password: process.env.FTP_PASS,
-            secure: true
-        })
-        console.log(await client.list())
+const FILES = data.files.filter(file => file.working_dir !== "D").map(file => file.path)
 
-        for (const file of FILES) {
-            await client.uploadFrom(file, "public_html/" + file)
-        }
-    }
-    catch (err) {
-        console.log(err)
-    }
-    client.close()
-}
+// if (false == undefined) {
+//     const FILES = [
+//         "test.txt", //
+//     ]
+//     const client = new ftp.Client()
+//     client.ftp.verbose = true;
+//     try {
+//         await client.access({
+//             host: process.env.FTP_HOST,
+//             user: process.env.FTP_USER,
+//             password: process.env.FTP_PASS,
+//             secure: true
+//         })
+//         console.log(await client.list())
+
+//         for (const file of FILES) {
+//             await client.uploadFrom(file, "public_html/" + file)
+//         }
+//     }
+//     catch (err) {
+//         console.log(err)
+//     }
+//     client.close()
+// }

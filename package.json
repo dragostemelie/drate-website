@@ -28,6 +28,7 @@
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.9.0",
     "react-syntax-highlighter": "^15.5.0",
+    "simple-git": "^3.20.0",
     "slugify": "^1.6.5",
     "styled-components": "^5.3.9"
   },

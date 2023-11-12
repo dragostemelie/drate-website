@@ -1,11 +1,13 @@
 <?php
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
+$dotenv->load();
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
 function checkToken()
 {
-  $secret_key = "f7eV9Wj7nAq3FQaQ";
+  $secret_key = $_ENV['JWT_SECRET'];
   $token = readToken();
 
   try {
