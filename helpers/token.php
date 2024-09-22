@@ -51,7 +51,7 @@ function setToken($data)
       "email" => $data['email']
     )
   );
-  $secret_key = "f7eV9Wj7nAq3FQaQ";
+  $secret_key = "";
   $jwt = JWT::encode($token, $secret_key, 'HS256');
 
   return array(
